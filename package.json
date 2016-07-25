@@ -1,5 +1,5 @@
 {
-  "name": "wekan",
+  "name": "Wekan",
   "version": "0.10.1",
   "description": "The open-source Trello-like kanban",
   "private": true,
@@ -18,8 +18,5 @@
   "homepage": "https://wekan.io",
   "devDependencies": {
     "eslint": "^2.0.0"
-  },
-  "dependencies": {
-    "xss": "^0.2.13"
   }
 }

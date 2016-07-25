@@ -21,6 +21,7 @@ BlazeComponent.extendComponent({
     this.parentComponent().showOverlay.set(true);
     this.parentComponent().mouseHasEnterCardDetails = false;
     this.calculateNextPeak();
+    this.subscribe('sentences');
   },
 
   isWatching() {
@@ -62,7 +63,7 @@ BlazeComponent.extendComponent({
 
   events() {
     const events = {
-      [`${CSSEvents.transitionend} .js-card-details`]() {
+      [`${CSSEvents.animationend} .js-card-details`]() {
         this.isLoaded.set(true);
       },
     };
@@ -147,12 +148,12 @@ Template.cardDetailsActionsPopup.events({
   'click .js-move-card-to-top'(evt) {
     evt.preventDefault();
     const minOrder = _.min(this.list().cards().map((c) => c.sort));
-    this.move(this.listId, minOrder - 1);
+    this.move(this.listId, minOrder / 2);
   },
   'click .js-move-card-to-bottom'(evt) {
     evt.preventDefault();
     const maxOrder = _.max(this.list().cards().map((c) => c.sort));
-    this.move(this.listId, maxOrder + 1);
+    this.move(this.listId, Math.floor(maxOrder) + 1);
   },
   'click .js-archive'(evt) {
     evt.preventDefault();

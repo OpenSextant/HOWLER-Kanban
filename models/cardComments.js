@@ -16,22 +16,10 @@ CardComments.attachSchema(new SimpleSchema({
   createdAt: {
     type: Date,
     denyUpdate: false,
-    autoValue() { // eslint-disable-line consistent-return
-      if (this.isInsert) {
-        return new Date();
-      } else {
-        this.unset();
-      }
-    },
   },
   // XXX Should probably be called `authorId`
   userId: {
     type: String,
-    autoValue() { // eslint-disable-line consistent-return
-      if (this.isInsert && !this.isSet) {
-        return this.userId;
-      }
-    },
   },
 }));
 
@@ -55,6 +43,11 @@ CardComments.helpers({
 });
 
 CardComments.hookOptions.after.update = { fetchPrevious: false };
+
+CardComments.before.insert((userId, doc) => {
+  doc.createdAt = new Date();
+  doc.userId = userId;
+});
 
 if (Meteor.isServer) {
   CardComments.after.insert((userId, doc) => {

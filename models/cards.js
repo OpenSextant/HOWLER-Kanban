@@ -4,20 +4,22 @@ Cards = new Mongo.Collection('cards');
 // de-normalized number of comments so we don't have to publish the whole list
 // of comments just to display the number of them in the board view.
 Cards.attachSchema(new SimpleSchema({
-  title: {
-    type: String,
-  },
-  archived: {
-    type: Boolean,
-    autoValue() { // eslint-disable-line consistent-return
-      if (this.isInsert && !this.isSet) {
-        return false;
-      }
-    },
-  },
-  listId: {
-    type: String,
-  },
+	title: {
+		type: String,
+	},
+	key: {
+		type: String,
+	},
+	entityType: {
+		type: String,
+		allowedValues: ['NOUN','ADJECTIVE','VERB','INSTANCE'],
+	},
+	archived: {
+		type: Boolean,
+	},
+	listId: {
+		type: String,
+	},
   // The system could work without this `boardId` information (we could deduce
   // the board identifier from the card), but it would make the system more
   // difficult to manage and less efficient.
@@ -30,19 +32,12 @@ Cards.attachSchema(new SimpleSchema({
   },
   createdAt: {
     type: Date,
-    autoValue() { // eslint-disable-line consistent-return
-      if (this.isInsert) {
-        return new Date();
-      } else {
-        this.unset();
-      }
-    },
+    denyUpdate: true,
+    optional: true,
   },
   dateLastActivity: {
     type: Date,
-    autoValue() {
-      return new Date();
-    },
+    optional: true,
   },
   description: {
     type: String,
@@ -60,11 +55,6 @@ Cards.attachSchema(new SimpleSchema({
   // the `members` field?
   userId: {
     type: String,
-    autoValue() { // eslint-disable-line consistent-return
-      if (this.isInsert && !this.isSet) {
-        return this.userId;
-      }
-    },
   },
   sort: {
     type: Number,
@@ -126,6 +116,10 @@ Cards.helpers({
     return Attachments.find({ cardId: this._id }, { sort: { uploadedAt: -1 }});
   },
 
+  sentences(){
+	 return Sentences.find({ keys: this.key, boardId: this.boardId  });
+  },
+  
   cover() {
     const cover = Attachments.findOne(this.coverId);
     // if we return a cover before it is fully stored, we will get errors when we try to display it
@@ -209,13 +203,18 @@ Cards.mutations({
   },
 });
 
-if (Meteor.isServer) {
-  // Cards are often fetched within a board, so we create an index to make these
-  // queries more efficient.
-  Meteor.startup(() => {
-    Cards._collection._ensureIndex({ boardId: 1 });
-  });
+Cards.before.insert((userId, doc) => {
+  doc.createdAt = new Date();
+  doc.dateLastActivity = new Date();
+  if(!doc.hasOwnProperty('archived')){
+    doc.archived = false;
+  }
+  if (!doc.userId) {
+    doc.userId = userId;
+  }
+});
 
+if (Meteor.isServer) {
   Cards.after.insert((userId, doc) => {
     Activities.insert({
       userId,

@@ -22,10 +22,10 @@ const pkgdef :Spk.PackageDefinition = (
     appTitle = (defaultText = "Wekan"),
     # The name of the app as it is displayed to the user.
 
-    appVersion = 12,
+    appVersion = 10,
     # Increment this for every release.
 
-    appMarketingVersion = (defaultText = "0.11.0-rc2"),
+    appMarketingVersion = (defaultText = "0.10.1"),
     # Human-readable presentation of the app version.
 
     minUpgradableAppVersion = 0,
@@ -162,7 +162,7 @@ const pkgdef :Spk.PackageDefinition = (
         verbPhrase = (
           defaultText = "can edit",
           localizations = [
-            (locale = "fr", text = "peut Ã©diter"),
+            (locale = "fr", text = "peut éditer"),
           ],
         ),
         default = true,
@@ -171,7 +171,7 @@ const pkgdef :Spk.PackageDefinition = (
       #   permissions = [true, true],
       #   verbPhrase = (defaultText = "can configure")
       #
-      # XXX Administrators configuration options arenâ€™t implemented yet, so this
+      # XXX Administrators configuration options aren’t implemented yet, so this
       # role is currently useless.
       )]
     )

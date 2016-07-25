@@ -36,6 +36,11 @@ Meteor.publish('boards', function() {
   });
 });
 
+Meteor.publish('allBoards',  function() {
+	  return Boards.find();
+});
+
+
 Meteor.publish('archivedBoards', function() {
   if (!Match.test(this.userId, String))
     return [];
