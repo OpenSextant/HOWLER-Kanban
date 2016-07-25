@@ -1,6 +1,13 @@
+
+**HOWLER Kanban** -
+This is a fork of the excellent Wekan Kanban system. It has been modified to be a demo for the
+OpenSextant HOWLER English-to-ontology translation capabilities ( https://github.com/OpenSextant/OpenSextant-HOWLER )
+
+
 # Wekan
 
 [![Join the chat][gitter_badge]][gitter_chat]
+
 
 Wekan is an open-source and collaborative kanban board application.
 
