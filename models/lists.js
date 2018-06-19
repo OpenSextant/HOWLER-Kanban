@@ -6,24 +6,14 @@ Lists.attachSchema(new SimpleSchema({
   },
   archived: {
     type: Boolean,
-    autoValue() { // eslint-disable-line consistent-return
-      if (this.isInsert && !this.isSet) {
-        return false;
-      }
-    },
   },
   boardId: {
     type: String,
   },
   createdAt: {
     type: Date,
-    autoValue() { // eslint-disable-line consistent-return
-      if (this.isInsert) {
-        return new Date();
-      } else {
-        this.unset();
-      }
-    },
+    denyUpdate: true,
+    optional: true,
   },
   sort: {
     type: Number,
@@ -33,14 +23,8 @@ Lists.attachSchema(new SimpleSchema({
   },
   updatedAt: {
     type: Date,
+    denyInsert: true,
     optional: true,
-    autoValue() { // eslint-disable-line consistent-return
-      if (this.isUpdate) {
-        return new Date();
-      } else {
-        this.unset();
-      }
-    },
   },
   wipLimit: {
     type: Object,
@@ -160,11 +144,19 @@ Meteor.methods({
 
 Lists.hookOptions.after.update = { fetchPrevious: false };
 
-if (Meteor.isServer) {
-  Meteor.startup(() => {
-    Lists._collection._ensureIndex({ boardId: 1 });
-  });
+Lists.before.insert((userId, doc) => {
+  doc.createdAt = new Date();
+  doc.archived = false;
+  if (!doc.userId)
+    doc.userId = userId;
+});
 
+Lists.before.update((userId, doc, fieldNames, modifier) => {
+  modifier.$set = modifier.$set || {};
+  modifier.$set.modifiedAt = new Date();
+});
+
+if (Meteor.isServer) {
   Lists.after.insert((userId, doc) => {
     Activities.insert({
       userId,

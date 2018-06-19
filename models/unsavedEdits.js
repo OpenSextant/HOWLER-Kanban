@@ -14,11 +14,6 @@ UnsavedEditCollection.attachSchema(new SimpleSchema({
   },
   userId: {
     type: String,
-    autoValue() { // eslint-disable-line consistent-return
-      if (this.isInsert && !this.isSet) {
-        return this.userId;
-      }
-    },
   },
 }));
 
@@ -36,3 +31,7 @@ if (Meteor.isServer) {
     fetch: ['userId'],
   });
 }
+
+UnsavedEditCollection.before.insert((userId, doc) => {
+  doc.userId = userId;
+});

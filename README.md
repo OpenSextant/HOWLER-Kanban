@@ -1,3 +1,9 @@
+
+**HOWLER Kanban** -
+This is a fork of the excellent Wekan Kanban system. It has been modified to be a demo for the
+OpenSextant HOWLER English-to-ontology translation capabilities ( https://github.com/OpenSextant/OpenSextant-HOWLER )
+
+
 # Wekan
 
 [![Translate Wekan at Transifex](https://img.shields.io/badge/Translate%20Wekan-at%20Transifex-brightgreen.svg "Freenode IRC")](https://transifex.com/wekan/wekan)
