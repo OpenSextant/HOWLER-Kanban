@@ -1,20 +1,7 @@
 Sentences = new Mongo.Collection('sentences');
 
-
-WordSchema = new SimpleSchema({
-	surfaceForm:{type:String},
-	logicalForm:{type:String},
-	partOfSpeech:{type:String},
-	vocabulary:{type:String},
-	auxiliary:{type:String, optional: true},
-	baseVerb:{type:String, optional: true},
-	particle:{type:String, optional: true},
-});
-
-
 Sentences.attachSchema(new SimpleSchema({
 	text: {type: String},
-	words: {type: [WordSchema]},
 	keys:{type:[String]},
 	parseable: {type: Boolean},
 	inferred: {type: Boolean},

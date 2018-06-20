@@ -4,7 +4,8 @@ RawText = new Mongo.Collection('rawtext');
 RawText.attachSchema(new SimpleSchema({
 	text: {type: String},
 	boardId: {type: String},
-	userId: {type: String},
+	userId:  {type: String},
+//	swimlaneId: {type: String},
 	inferred:{type: Boolean},
 	createdAt: {type: Date, denyUpdate: true, optional:true},
 }));

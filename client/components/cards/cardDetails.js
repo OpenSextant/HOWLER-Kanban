@@ -28,6 +28,7 @@ BlazeComponent.extendComponent({
       boardBody.mouseHasEnterCardDetails = false;
     }
     this.calculateNextPeak();
+    this.subscribe('sentences');
 
     Meteor.subscribe('unsaved-edits');
   },

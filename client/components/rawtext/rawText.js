@@ -15,6 +15,7 @@ BlazeComponent.extendComponent({
 						text,
 						boardId:Session.get('currentBoard'),
 						userId: this.currentData().userId,
+//						swimlaneId: this.currentData().swimlaneId,
 						inferred: false,
 					});
 					resetRawTextInput(input);

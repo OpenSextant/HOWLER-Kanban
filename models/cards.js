@@ -7,6 +7,13 @@ Cards.attachSchema(new SimpleSchema({
   title: {
     type: String,
   },
+  	key: {
+		type: String,
+	},
+	entityType: {
+		type: String,
+		allowedValues: ['ADJECTIVE','ANNOTATION_PREDICATE','CATEGORY','COMMON_NOUN','DATA_FACET','DATA_FACET_PREDICATE','DATA_PREDICATE','DATATYPE','INSTANCE','NOUN','OBJECT_PREDICATE','PREDICATE','PREDICATE_CHARACTERISTIC','PROPER_NOUN'],
+	},
   archived: {
     type: Boolean,
     autoValue() { // eslint-disable-line consistent-return
@@ -178,6 +185,14 @@ Cards.helpers({
     return Attachments.find({cardId: this._id}, {sort: {uploadedAt: -1}});
   },
 
+  sentences(){
+	 return Sentences.find({ keys: this.key, boardId: this.boardId  });
+  },
+  
+  wordAndForm(){
+  	 return this.title + ' (' + this.entityType + ')' ; 
+  },
+  
   cover() {
     const cover = Attachments.findOne(this.coverId);
     // if we return a cover before it is fully stored, we will get errors when we try to display it
